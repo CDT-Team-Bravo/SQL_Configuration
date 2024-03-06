@@ -1,0 +1,14 @@
+DROP DATABASE IF EXISTS grayScoring;
+
+CREATE DATABASE grayScoring;
+
+USE grayScoring;
+
+DROP TABLE IF EXISTS grayTable;
+
+CREATE TABLE grayTable (
+    itemID  INT DEFAULT 420,
+    PRIMARY KEY(itemID)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+INSERT INTO grayTable VALUES (420)

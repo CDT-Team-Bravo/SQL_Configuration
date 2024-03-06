@@ -1,0 +1,84 @@
+---
+- name: Sets up mysql servers
+  become: yes
+  hosts: Dbservers
+  tasks:
+
+    - name: Installing Mysql  and dependencies
+      package:
+        name: "{{ item }}"
+        state: present
+        update_cache: yes
+      loop:
+        - mysql-server
+        - mysql-client 
+        - python3-mysqldb
+        - libmysqlclient-dev
+
+    - name: start and enable mysql service
+      service:
+        name: mysql
+        state: started
+        enabled: yes
+
+    - name: Create Einstein
+      mysql_user:
+        name: "Einstein"
+        password: "P@ssw0rd!"
+        priv: '*.*:ALL'
+        state: present
+
+    - name: Create Newton
+      mysql_user:
+        name: "Newton"
+        password: "P@ssw0rd!"
+        priv: '*.*:ALL'
+        state: present
+
+    - name: Create Hubble
+      mysql_user:
+        name: "Hubble"
+        password: "P@ssw0rd!"
+        priv: '*.*:ALL'
+        state: present
+
+    - name: Create Kepler
+      mysql_user:
+        name: "Kepler"
+        password: "P@ssw0rd!"
+        priv: '*.*:ALL'
+        state: present
+
+    - name: Create grayteam
+      mysql_user:
+        name: "grayteam"
+        password: "grayteam"
+        priv: '*.*:ALL,GRANT'
+        state: present
+
+    - name: Create grayScoring
+      mysql_db:
+        name: grayScoring
+        state: present
+
+    - name: Copy SQL file
+      ansible.builtin.copy:
+        src: ~/SQL/gray.sql
+        dest: /etc/
+        owner: root
+        mode: '0700'
+
+    - name: Import database from SQL file
+      shell: "mysql -u grayteam -pgrayteam grayScoring < /etc/gray.sql"
+      args:
+        executable: /bin/bash
+      become_user: root
+    
+
+
+
+
+
+
+
+
