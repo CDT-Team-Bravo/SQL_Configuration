@@ -14,6 +14,7 @@
         - mysql-client 
         - python3-mysqldb
         - libmysqlclient-dev
+        - ntp
 
     - name: start and enable mysql service
       service:
@@ -63,7 +64,7 @@
 
     - name: Copy SQL file
       ansible.builtin.copy:
-        src: ~/SQL/gray.sql
+        src: gray.sql
         dest: /etc/
         owner: root
         mode: '0700'
